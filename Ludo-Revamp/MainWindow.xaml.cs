@@ -78,7 +78,6 @@ namespace Ludo_Revamp
 
             // Give the new game some properties
             Engine.Game.Name = GameNameBox.Text;
-            Engine.Game.NumberOfPlayers = NumberOfPlayersList.SelectedIndex + NumberOfComputersList.SelectedIndex;
 
             // Save the newly started game
             SaveGame();

@@ -7,12 +7,14 @@ namespace GameEngine.Classes
 	{
 		public int TokenID { get; set; }
 		public int? Position { get; set; }
-		[NotMapped]
-		public Ellipse Ellipse { get; set; }
 		public int PlayerNumber { get; set; }
 		public int TokenNumber { get; set; }
 		public int MovedSteps { get; set; }
 		public bool HasFinished { get; set; }
 		public bool IsOnFinishLine { get; set; }
+
+		[NotMapped]
+		public Ellipse Ellipse { get; set; }
+
 	}
 }

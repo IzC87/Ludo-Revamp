@@ -15,7 +15,6 @@ namespace GameEngine.Classes
         public int DieRoll { get; set; }
         public int NumberOfRolls { get; set; }
 
-
         public bool HasPlayerFinished()
         {
             int numberOfFinishedTokens = 0;
@@ -33,6 +32,18 @@ namespace GameEngine.Classes
                 return true;
             }
             return false;
+        }
+
+        private Token GetSelectedToken()
+        {
+            foreach (var token in Tokens)
+            {
+                if (token.Ellipse.StrokeThickness == 2)
+                {
+                    return token;
+                }
+            }
+            return null;
         }
     }
 }

@@ -14,18 +14,6 @@ namespace GameEngine
             token.Ellipse.StrokeThickness = 2;
         }
 
-        private Token GetSelectedToken()
-        {
-            foreach (var token in Game.Players[WhoseTurnIsIt()].Tokens)
-            {
-                if (token.Ellipse.StrokeThickness == 2)
-                {
-                    return token;
-                }
-            }
-            return null;
-        }
-
         public void DeselectTokens()
         {
             foreach (var player in Game.Players)
@@ -36,20 +24,6 @@ namespace GameEngine
                 }
             }
         }
-
-        public bool SelectTokenThatCanFinish(int dieRoll)
-        {
-            foreach (var token in Game.Players[WhoseTurnIsIt()].Tokens)
-            {
-                if (token.MovedSteps + dieRoll == MaximumSteps)
-                {
-                    SelectToken(token);
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public Token SelectRandomTokenForComputer(int dieRoll)
         {
             var numberOfLockedTokens = GetNumberOfStartLockedTokens();
