@@ -69,6 +69,17 @@ namespace Ludo_Revamp
             //Player4Scores.ItemsSource = Engine.PlayersScore[3];
         }
 
+        private void LoadPlayerTokensGUI()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    Engine.Game.Players[i].Tokens[j].Ellipse = Ellipses[i * 4 + j];
+                }
+            }
+        }
+
         private void AddPlayerTokensGUI()
         {
             var colors = new List<SolidColorBrush>() { Brushes.Green, Brushes.Purple, Brushes.Red, Brushes.Blue };
@@ -86,6 +97,7 @@ namespace Ludo_Revamp
                         StrokeThickness = 0
                     };
                     Engine.Game.Players[i].Tokens[j].Ellipse = playerToken;
+                    Ellipses.Add(playerToken);
                     Board.Children.Add(playerToken);
                     playerToken.MouseDown += PlayerToken_MouseDown;
                 }

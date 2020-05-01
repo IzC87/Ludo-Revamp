@@ -310,11 +310,5 @@
     "Row": 7,
     "PlayerStart": null,
     "PlayerFinish": 0
-  },
-  {
-    "Column": 1,
-    "Row": 6,
-    "PlayerStart": null,
-    "PlayerFinish": null
   }
 ]

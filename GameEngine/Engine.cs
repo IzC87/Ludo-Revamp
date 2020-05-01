@@ -23,46 +23,32 @@ namespace GameEngine
         public Game Game;
         public DbContext Context = new MyContext();
 
-        private void SetPlayerTurn(int playerNumber)
+        public List<Token> PlayGame()
         {
-            UnsetPlayersTurn();
-            Game.Players[playerNumber].MyTurn = true;
+
         }
 
-        private void UnsetPlayersTurn()
+        public void EndTurn()
         {
-            foreach (var player in Game.Players)
-            {
-                player.MyTurn = false;
-            }
-        }
 
-        public bool IsPlayerComputer()
-        {
-            if (Game.Players[WhoseTurnIsIt()].Computer == false)
-            {
-                return false;
-            }
-            return true;
         }
 
         public int RollDie()
         {
             var roll = randomSeed.Next(1, 7);
-            Game.Players[WhoseTurnIsIt()].DieRoll = roll;
+            Game.WhoseTurnIsIt().DieRoll = roll;
             return roll;
         }
 
-        public int WhoseTurnIsIt()
+        public void DeselectSelectedTokens()
         {
             foreach (var player in Game.Players)
             {
-                if (player.MyTurn)
+                foreach (var token in player.Tokens)
                 {
-                    return player.PlayerNumber;
+                    token.Ellipse.StrokeThickness = 0;
                 }
             }
-            return 0;
         }
 
         public void LaunchConfiguration()
@@ -73,10 +59,21 @@ namespace GameEngine
             SavedGames = Load.LoadSavedGames();
         }
 
-        public void LoadGame(Game game)
+        public List<Token> LoadGame(Game game)
         {
-            //NewGame.SetupPlayers(0, 4, ref Game);
+            List<Token> tokens = new List<Token>();
+
             Game = Load.LoadGame(game);
+
+            foreach (var player in Game.Players)
+            {
+                foreach (var token in player.Tokens)
+                {
+                    tokens.Add(token);
+                }
+            }
+
+            return tokens;
         }
 
         public void InitializeNewGame(int numberOfPlayers, int numberOfComputers)
@@ -89,7 +86,7 @@ namespace GameEngine
             HistoryList.Clear();
             //AddMessageToHistoryList("New Game Started!");
 
-            SetPlayerTurn(0);
+            Game.SetPlayerTurn(0);
         }
     }
 }

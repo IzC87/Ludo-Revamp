@@ -16,6 +16,69 @@ namespace GameEngine.Classes
 
         public DateTime GameCreationTime { get; set; }
 
+
+        public bool IsPlayerComputer()
+        {
+            if (WhoseTurnIsIt().Computer)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public Player WhoseTurnIsIt()
+        {
+            foreach (var player in Players)
+            {
+                if (player.MyTurn)
+                {
+                    return player;
+                }
+            }
+            return null;
+        }
+
+        public void SetPlayerTurn(int playerNumber)
+        {
+            UnsetPlayersTurn();
+            Players[playerNumber].MyTurn = true;
+        }
+
+        public void UnsetPlayersTurn()
+        {
+            foreach (var player in Players)
+            {
+                player.MyTurn = false;
+            }
+        }
+
+        public void NextPlayerTurn()
+        {
+            int currentPlayer = 0;
+            foreach (var player in Players)
+            {
+                if (player.MyTurn)
+                {
+                    currentPlayer = player.PlayerNumber;
+                }
+            }
+
+            ++currentPlayer;
+            if (currentPlayer > GetNumberOfPlayers() - 1)
+            {
+                currentPlayer = 0;
+            }
+            if (Players[currentPlayer].HasFinished)
+            {
+                SetPlayerTurn(currentPlayer);
+                NextPlayerTurn();
+            }
+            else
+            {
+                SetPlayerTurn(currentPlayer);
+            }
+        }
+
         public int GetNumberOfPlayers()
         {
             int numberOfPlayers = 0;

@@ -29,6 +29,8 @@ namespace Ludo_Revamp
         public List<StartingPositionsGUI> StartingPositionsGUI = new List<StartingPositionsGUI>();
         public List<FinishPositionsGUI> FinishPositionsGUI = new List<FinishPositionsGUI>();
 
+        public List<Ellipse> Ellipses = new List<Ellipse>();
+
         public MainWindow()
         {
             // Initialize the GUI
@@ -41,16 +43,29 @@ namespace Ludo_Revamp
             PreviewKeyDown += new KeyEventHandler(HandleEscapeKeyPress);
         }
 
+        private void PlayGame()
+        {
+            var tokensToMove = Engine.PlayGame();
+            if (tokensToMove != null)
+            {
+                foreach (var token in tokensToMove)
+                {
+                    if (token != null)
+                    {
+                        //Engine.UpdatePlayerScore(token);
+                        MoveToken(token);
+                    }
+                }
+            }
+        }
+
         public void RollDie_Click(object sender, RoutedEventArgs e)
         {
-            if (Engine.IsPlayerComputer() == false)
-            {
-                int dieRoll = Engine.RollDie();
-                Diebutton.Content = dieRoll;
-                Diebutton.IsEnabled = false;
-                Engine.DeselectSelectedTokens();
-                //PlayGame(dieRoll);
-            }
+            int dieRoll = Engine.RollDie();
+            Diebutton.Content = dieRoll;
+            Diebutton.IsEnabled = false;
+            Engine.DeselectSelectedTokens();
+            PlayGame();
         }
 
         private void PlayerToken_MouseDown(object sender, MouseButtonEventArgs e)
@@ -60,11 +75,32 @@ namespace Ludo_Revamp
 
         public void LoadGame_Click(object sender, RoutedEventArgs e)
         {
+            // Get the selected game
             var game = (Game)SavedGamesList.SelectedItem;
             if (game != null)
             {
+                // Update the game name textbox
                 GameNameBox.Text = game.Name;
-                Engine.LoadGame(game);
+
+                // Load the game
+                var tokensToMove = Engine.LoadGame(game);
+
+                // Re-add the Ellipses to the corresponding players
+                LoadPlayerTokensGUI();
+                InitializeNewGameGUI(Engine.Game.GetNumberOfPlayers());
+
+                // Move tokens to their saved positions
+                if (tokensToMove != null)
+                {
+                    foreach (var token in tokensToMove)
+                    {
+                        if (token != null)
+                        {
+                            //Engine.UpdatePlayerScore(token);
+                            MoveToken(token);
+                        }
+                    }
+                }
             }
         }
 
@@ -85,6 +121,36 @@ namespace Ludo_Revamp
             // Start the new game
             Diebutton.IsEnabled = true;
             //PlayGame();
+        }
+
+        private void MoveToken(Token token)
+        {
+            // Position is null so move it back to starting position
+            if (token.Position == null)
+            {
+                // Token was pushed back to start, so we add it to the history list
+                //Engine.AddMessageToHistoryList($"P{token.PlayerNumber + 1} was pushed to start");
+
+                Grid.SetColumn(token.Ellipse, StartingPositionsGUI[token.PlayerNumber].Start[token.TokenNumber].Column);
+                Grid.SetRow(token.Ellipse, StartingPositionsGUI[token.PlayerNumber].Start[token.TokenNumber].Row);
+            }
+            else if (token.HasFinished)
+            {
+                Grid.SetColumn(token.Ellipse, FinishPositionsGUI[token.PlayerNumber].Finish[5].Column);
+                Grid.SetRow(token.Ellipse, FinishPositionsGUI[token.PlayerNumber].Finish[5].Row);
+            }
+            else if (token.IsOnFinishLine)
+            {
+                int maxSteps = Engine.Game.WhoseTurnIsIt().MaximumMainBoardSteps;
+                Grid.SetColumn(token.Ellipse, FinishPositionsGUI[token.PlayerNumber].Finish[token.MovedSteps - maxSteps].Column);
+                Grid.SetRow(token.Ellipse, FinishPositionsGUI[token.PlayerNumber].Finish[token.MovedSteps - maxSteps].Row);
+            }
+            // Regular movement of the token
+            else
+            {
+                Grid.SetColumn(token.Ellipse, BoardPositionsGUI[int.Parse(token.Position.ToString())].Column);
+                Grid.SetRow(token.Ellipse, BoardPositionsGUI[int.Parse(token.Position.ToString())].Row);
+            }
         }
 
         private void SaveGame()
