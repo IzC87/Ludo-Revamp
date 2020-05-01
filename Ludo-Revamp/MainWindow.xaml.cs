@@ -48,7 +48,7 @@ namespace Ludo_Revamp
                 int dieRoll = Engine.RollDie();
                 Diebutton.Content = dieRoll;
                 Diebutton.IsEnabled = false;
-                Engine.DeselectTokens();
+                Engine.DeselectSelectedTokens();
                 //PlayGame(dieRoll);
             }
         }

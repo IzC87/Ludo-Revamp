@@ -18,8 +18,6 @@ namespace GameEngine
         public List<ObservableCollection<string>> PlayersScore = new List<ObservableCollection<string>>();
         public ObservableCollection<Game> SavedGames = new ObservableCollection<Game>();
 
-        public readonly int MaximumSteps = 57;
-        public readonly int MaximumMainBoardSteps = 52;
         public int AmountOfPlayers = 0;
 
         public Game Game;
