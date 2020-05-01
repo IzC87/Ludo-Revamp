@@ -338,3 +338,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+Ludo-Revamp/JSON/appsettings.dev.json

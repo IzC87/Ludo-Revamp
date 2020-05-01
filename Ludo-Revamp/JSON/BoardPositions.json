@@ -1,0 +1,320 @@
+[
+  {
+    "Column": 1,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 2,
+    "Row": 6,
+    "PlayerStart": 0,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 3,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 4,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 5,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 6,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 7,
+    "Row": 5,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 7,
+    "Row": 4,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 7,
+    "Row": 3,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 7,
+    "Row": 2,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 7,
+    "Row": 1,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 7,
+    "Row": 0,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 8,
+    "Row": 0,
+    "PlayerStart": null,
+    "PlayerFinish": 1
+  },
+  {
+    "Column": 9,
+    "Row": 0,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 9,
+    "Row": 1,
+    "PlayerStart": 1,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 9,
+    "Row": 2,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 9,
+    "Row": 3,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 9,
+    "Row": 4,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 9,
+    "Row": 5,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 10,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 11,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 12,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 13,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 14,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 15,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 15,
+    "Row": 7,
+    "PlayerStart": null,
+    "PlayerFinish": 2
+  },
+  {
+    "Column": 15,
+    "Row": 8,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 14,
+    "Row": 8,
+    "PlayerStart": 2,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 13,
+    "Row": 8,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 12,
+    "Row": 8,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 11,
+    "Row": 8,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 10,
+    "Row": 8,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 9,
+    "Row": 9,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 9,
+    "Row": 10,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 9,
+    "Row": 11,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 9,
+    "Row": 12,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 9,
+    "Row": 13,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 9,
+    "Row": 14,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 8,
+    "Row": 14,
+    "PlayerStart": null,
+    "PlayerFinish": 3
+  },
+  {
+    "Column": 7,
+    "Row": 14,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 7,
+    "Row": 13,
+    "PlayerStart": 3,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 7,
+    "Row": 12,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 7,
+    "Row": 11,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 7,
+    "Row": 10,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 7,
+    "Row": 9,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 6,
+    "Row": 8,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 5,
+    "Row": 8,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 4,
+    "Row": 8,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 3,
+    "Row": 8,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 2,
+    "Row": 8,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 1,
+    "Row": 8,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  },
+  {
+    "Column": 1,
+    "Row": 7,
+    "PlayerStart": null,
+    "PlayerFinish": 0
+  },
+  {
+    "Column": 1,
+    "Row": 6,
+    "PlayerStart": null,
+    "PlayerFinish": null
+  }
+]

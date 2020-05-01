@@ -210,6 +210,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="JSON\BoardPositions.json" />
+    <None Include="JSON\appsettings.dev.json" />
+    <None Include="JSON\FinishPositions.json" />
+    <None Include="JSON\StartingPositions.json" />
+    <None Include="JSON\appsettings.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
