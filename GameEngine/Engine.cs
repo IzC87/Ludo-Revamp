@@ -1,5 +1,6 @@
 ﻿using GameEngine.Classes;
 using GameEngine.Initialize;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,9 +19,12 @@ namespace GameEngine
 
         public Game Game;
 
+        public DbContext Context = new MyContext();
+
         public void LaunchConfiguration()
         {
             Game = StartUp.CreatePlayers();
+            Context.Add(Game);
         }
 
         private void SetPlayerTurn(int playerNumber)

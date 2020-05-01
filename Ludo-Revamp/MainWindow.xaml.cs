@@ -17,6 +17,7 @@ using GameEngine.Classes;
 using Newtonsoft.Json;
 using Ludo_Revamp.Classes;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ludo_Revamp
 {
@@ -57,9 +58,20 @@ namespace Ludo_Revamp
             // Initialize the engine for a new game
             Engine.InitializeNewGame(NumberOfPlayersList.SelectedIndex, NumberOfComputersList.SelectedIndex);
 
+            // Name the new game
+            Engine.Game.Name = GameNameBox.Text;
+
+            // Save the newly started game
+            SaveGame();
+
             // Start the new game
             Diebutton.IsEnabled = true;
             //PlayGame();
+        }
+
+        private void SaveGame()
+        {
+            Engine.Context.SaveChanges();
         }
 
         private void HandleEscapeKeyPress(object sender, KeyEventArgs e)
