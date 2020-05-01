@@ -47,6 +47,6 @@ namespace GameEngine.Initialize
             }
 
             return game;
-    }
+        }
     }
 }

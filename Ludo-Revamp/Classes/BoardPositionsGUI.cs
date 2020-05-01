@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ludo.Classes
+namespace Ludo_Revamp.Classes
 {
     public class BoardPositionsGUI
     {

@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GameEngine.Classes;
 using Newtonsoft.Json;
-using Ludo.Classes;
+using Ludo_Revamp.Classes;
 using System.IO;
 
 namespace Ludo_Revamp
@@ -40,27 +40,6 @@ namespace Ludo_Revamp
             PreviewKeyDown += new KeyEventHandler(HandleEscapeKeyPress);
         }
 
-        private void LaunchInitialization()
-        {
-            // InitializeEngine
-            Engine.LaunchConfiguration();
-
-            // InitializeGUI
-            AddPlayerTokensGUI();
-
-            // Load positions on board from JSON
-            BoardPositionsGUI = JsonConvert.DeserializeObject<List<BoardPositionsGUI>>(File.ReadAllText(@".\JSON\BoardPositions.json"));
-            StartingPositionsGUI = JsonConvert.DeserializeObject<List<StartingPositionsGUI>>(File.ReadAllText(@".\JSON\StartingPositions.json"));
-            FinishPositionsGUI = JsonConvert.DeserializeObject<List<FinishPositionsGUI>>(File.ReadAllText(@".\JSON\FinishPositions.json"));
-
-            //HistoryListview.ItemsSource = HistoryList;
-            HistoryListview.ItemsSource = Engine.HistoryList;
-            //Player1Scores.ItemsSource = Engine.PlayersScore[0];
-            //Player2Scores.ItemsSource = Engine.PlayersScore[1];
-            //Player3Scores.ItemsSource = Engine.PlayersScore[2];
-            //Player4Scores.ItemsSource = Engine.PlayersScore[3];
-        }
-
         public void RollDie_Click(object sender, RoutedEventArgs e)
         {
 
@@ -72,30 +51,15 @@ namespace Ludo_Revamp
 
         public void NewGame_Click(object sender, RoutedEventArgs e)
         {
+            // Initialize new game by setting up the GUI
+            InitializeNewGameGUI(NumberOfPlayersList.SelectedIndex + NumberOfComputersList.SelectedIndex);
 
-        }
+            // Initialize the engine for a new game
+            Engine.InitializeNewGame(NumberOfPlayersList.SelectedIndex, NumberOfComputersList.SelectedIndex);
 
-        private void AddPlayerTokensGUI()
-        {
-            var colors = new List<SolidColorBrush>() { Brushes.Green, Brushes.Purple, Brushes.Red, Brushes.Blue };
-
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    Ellipse playerToken = new Ellipse
-                    {
-                        Visibility = Visibility.Hidden,
-                        Margin = new Thickness(4),
-                        Fill = colors[i],
-                        Stroke = new SolidColorBrush(Colors.Black),
-                        StrokeThickness = 0
-                    };
-                    Engine.Game.Players[i].Tokens[j].Ellipse = playerToken;
-                    Board.Children.Add(playerToken);
-                    playerToken.MouseDown += PlayerToken_MouseDown;
-                }
-            }
+            // Start the new game
+            Diebutton.IsEnabled = true;
+            //PlayGame();
         }
 
         private void HandleEscapeKeyPress(object sender, KeyEventArgs e)
