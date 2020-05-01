@@ -61,7 +61,7 @@ namespace Ludo_Revamp
             StartingPositionsGUI = JsonConvert.DeserializeObject<List<StartingPositionsGUI>>(File.ReadAllText(@".\JSON\StartingPositions.json"));
             FinishPositionsGUI = JsonConvert.DeserializeObject<List<FinishPositionsGUI>>(File.ReadAllText(@".\JSON\FinishPositions.json"));
 
-            //HistoryListview.ItemsSource = HistoryList;
+            SavedGamesList.ItemsSource = Engine.SavedGames;
             HistoryListview.ItemsSource = Engine.HistoryList;
             //Player1Scores.ItemsSource = Engine.PlayersScore[0];
             //Player2Scores.ItemsSource = Engine.PlayersScore[1];

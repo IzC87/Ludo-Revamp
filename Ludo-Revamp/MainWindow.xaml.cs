@@ -58,6 +58,16 @@ namespace Ludo_Revamp
 
         }
 
+        public void LoadGame_Click(object sender, RoutedEventArgs e)
+        {
+            var game = (Game)SavedGamesList.SelectedItem;
+            if (game != null)
+            {
+                GameNameBox.Text = game.Name;
+                Engine.LoadGame(game);
+            }
+        }
+
         public void NewGame_Click(object sender, RoutedEventArgs e)
         {
             // Initialize new game by setting up the GUI
@@ -66,8 +76,9 @@ namespace Ludo_Revamp
             // Initialize the engine for a new game
             Engine.InitializeNewGame(NumberOfPlayersList.SelectedIndex, NumberOfComputersList.SelectedIndex);
 
-            // Name the new game
+            // Give the new game some properties
             Engine.Game.Name = GameNameBox.Text;
+            Engine.Game.NumberOfPlayers = NumberOfPlayersList.SelectedIndex + NumberOfComputersList.SelectedIndex;
 
             // Save the newly started game
             SaveGame();

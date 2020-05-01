@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace GameEngine
@@ -14,6 +16,8 @@ namespace GameEngine
 
         public ObservableCollection<string> HistoryList = new ObservableCollection<string>();
         public List<ObservableCollection<string>> PlayersScore = new List<ObservableCollection<string>>();
+        public ObservableCollection<Game> SavedGames = new ObservableCollection<Game>();
+
 
         public readonly int MaximumSteps = 57;
         public readonly int MaximumMainBoardSteps = 52;
@@ -21,12 +25,6 @@ namespace GameEngine
 
         public Game Game;
         public DbContext Context = new MyContext();
-
-        public void LaunchConfiguration()
-        {
-            Game = StartUp.CreatePlayers();
-            Context.Add(Game);
-        }
 
         private void SetPlayerTurn(int playerNumber)
         {
@@ -68,6 +66,20 @@ namespace GameEngine
                 }
             }
             return 0;
+        }
+
+        public void LaunchConfiguration()
+        {
+            Game = StartUp.CreatePlayers();
+            Context.Add(Game);
+
+            SavedGames = Load.LoadSavedGames();
+        }
+
+        public void LoadGame(Game game)
+        {
+            //NewGame.SetupPlayers(0, 4, ref Game);
+            Game = Load.LoadGame(game);
         }
 
         public void InitializeNewGame(int numberOfPlayers, int numberOfComputers)

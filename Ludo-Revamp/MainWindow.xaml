@@ -108,13 +108,46 @@
 
             <!-- Right menu -->
             <!-- List view for history -->
-            <ListView
+        <ListView
             x:Name="HistoryListview"
             Grid.Row="0"
             Grid.Column="16"
-            Grid.RowSpan="10"/>
+            Grid.RowSpan="9">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name, Mode=TwoWay}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
-            <!-- Number of Computers -->
+
+            <!-- List of saved Games -->
+            <ComboBox
+                x:Name="SavedGamesList"
+                Grid.Row="15"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                FontSize="14">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="2">
+                                <TextBlock Text="{Binding Name}" />
+                            </Border>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+            </ComboBox>
+
+        <!-- Load button -->
+            <Button
+                x:Name="LoadGameButton"
+                Click="LoadGame_Click"
+                Grid.Row="15"
+                Grid.Column="4"
+                Grid.ColumnSpan="3"
+                FontSize="18"
+                Content="Load game"/>
+
+        <!-- Number of Computers -->
             <ComboBox
             x:Name="NumberOfComputersList"
             Grid.Row="11"

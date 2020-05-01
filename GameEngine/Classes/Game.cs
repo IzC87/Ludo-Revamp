@@ -13,6 +13,7 @@ namespace GameEngine.Classes
 
         [MaxLength(50)]
         public string Name { get; set; }
+        public int NumberOfPlayers { get; set; }
 
         public DateTime GameCreationTime { get; set; }
     }
