@@ -43,8 +43,16 @@ namespace Ludo_Revamp
 
         public void RollDie_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Engine.IsPlayerComputer() == false)
+            {
+                int dieRoll = Engine.RollDie();
+                Diebutton.Content = dieRoll;
+                Diebutton.IsEnabled = false;
+                Engine.DeselectTokens();
+                //PlayGame(dieRoll);
+            }
         }
+
         private void PlayerToken_MouseDown(object sender, MouseButtonEventArgs e)
         {
 

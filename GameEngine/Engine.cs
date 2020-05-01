@@ -8,8 +8,10 @@ using System.Windows;
 
 namespace GameEngine
 {
-    public class Engine
+    public partial class Engine
     {
+        readonly Random randomSeed = new Random();
+
         public ObservableCollection<string> HistoryList = new ObservableCollection<string>();
         public List<ObservableCollection<string>> PlayersScore = new List<ObservableCollection<string>>();
 
@@ -18,7 +20,6 @@ namespace GameEngine
         public int AmountOfPlayers = 0;
 
         public Game Game;
-
         public DbContext Context = new MyContext();
 
         public void LaunchConfiguration()
@@ -39,6 +40,34 @@ namespace GameEngine
             {
                 player.MyTurn = false;
             }
+        }
+
+        public bool IsPlayerComputer()
+        {
+            if (Game.Players[WhoseTurnIsIt()].Computer == false)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public int RollDie()
+        {
+            var roll = randomSeed.Next(1, 7);
+            Game.Players[WhoseTurnIsIt()].DieRoll = roll;
+            return roll;
+        }
+
+        public int WhoseTurnIsIt()
+        {
+            foreach (var player in Game.Players)
+            {
+                if (player.MyTurn)
+                {
+                    return player.PlayerNumber;
+                }
+            }
+            return 0;
         }
 
         public void InitializeNewGame(int numberOfPlayers, int numberOfComputers)
