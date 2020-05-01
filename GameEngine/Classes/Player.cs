@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameEngine.Classes
 {
@@ -13,6 +14,7 @@ namespace GameEngine.Classes
         public bool MyTurn { get; set; }
         public int DieRoll { get; set; }
         public int NumberOfRolls { get; set; }
+
 
         public bool HasPlayerFinished()
         {

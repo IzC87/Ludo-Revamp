@@ -13,15 +13,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GameEngine.Classes;
+using Newtonsoft.Json;
+using Ludo.Classes;
+using System.IO;
 
 namespace Ludo_Revamp
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public Engine Engine = new Engine();
+
+        public List<BoardPositionsGUI> BoardPositionsGUI = new List<BoardPositionsGUI>();
+        public List<StartingPositionsGUI> StartingPositionsGUI = new List<StartingPositionsGUI>();
+        public List<FinishPositionsGUI> FinishPositionsGUI = new List<FinishPositionsGUI>();
 
         public MainWindow()
         {
@@ -39,6 +44,21 @@ namespace Ludo_Revamp
         {
             // InitializeEngine
             Engine.LaunchConfiguration();
+
+            // InitializeGUI
+            AddPlayerTokensGUI();
+
+            // Load positions on board from JSON
+            BoardPositionsGUI = JsonConvert.DeserializeObject<List<BoardPositionsGUI>>(File.ReadAllText(@".\JSON\BoardPositions.json"));
+            StartingPositionsGUI = JsonConvert.DeserializeObject<List<StartingPositionsGUI>>(File.ReadAllText(@".\JSON\StartingPositions.json"));
+            FinishPositionsGUI = JsonConvert.DeserializeObject<List<FinishPositionsGUI>>(File.ReadAllText(@".\JSON\FinishPositions.json"));
+
+            //HistoryListview.ItemsSource = HistoryList;
+            HistoryListview.ItemsSource = Engine.HistoryList;
+            //Player1Scores.ItemsSource = Engine.PlayersScore[0];
+            //Player2Scores.ItemsSource = Engine.PlayersScore[1];
+            //Player3Scores.ItemsSource = Engine.PlayersScore[2];
+            //Player4Scores.ItemsSource = Engine.PlayersScore[3];
         }
 
         public void RollDie_Click(object sender, RoutedEventArgs e)
@@ -53,6 +73,29 @@ namespace Ludo_Revamp
         public void NewGame_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void AddPlayerTokensGUI()
+        {
+            var colors = new List<SolidColorBrush>() { Brushes.Green, Brushes.Purple, Brushes.Red, Brushes.Blue };
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    Ellipse playerToken = new Ellipse
+                    {
+                        Visibility = Visibility.Hidden,
+                        Margin = new Thickness(4),
+                        Fill = colors[i],
+                        Stroke = new SolidColorBrush(Colors.Black),
+                        StrokeThickness = 0
+                    };
+                    Engine.Game.Players[i].Tokens[j].Ellipse = playerToken;
+                    Board.Children.Add(playerToken);
+                    playerToken.MouseDown += PlayerToken_MouseDown;
+                }
+            }
         }
 
         private void HandleEscapeKeyPress(object sender, KeyEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System.Windows.Shapes;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Windows.Shapes;
 
 namespace GameEngine.Classes
 {
@@ -6,6 +7,7 @@ namespace GameEngine.Classes
 	{
 		public int TokenID { get; set; }
 		public int? Position { get; set; }
+		[NotMapped]
 		public Ellipse Ellipse { get; set; }
 		public int PlayerNumber { get; set; }
 		public int TokenNumber { get; set; }
