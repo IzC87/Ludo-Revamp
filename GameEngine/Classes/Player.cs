@@ -18,10 +18,6 @@ namespace GameEngine.Classes
 
         [NotMapped]
         public bool HasMoved { get; set; }
-        [NotMapped]
-        public readonly int MaximumSteps = 57;
-        [NotMapped]
-        public readonly int MaximumMainBoardSteps = 52;
 
         public bool HasPlayerFinished()
         {
@@ -42,7 +38,7 @@ namespace GameEngine.Classes
             return false;
         }
 
-        private Token GetSelectedToken()
+        public Token GetSelectedToken()
         {
             foreach (var token in Tokens)
             {
@@ -54,17 +50,17 @@ namespace GameEngine.Classes
             return null;
         }
 
-        public Token SelectTokenThatCanFinish()
+        public bool SelectTokenThatCanFinish()
         {
             foreach (var token in Tokens)
             {
-                if (token.MovedSteps + this.DieRoll == MaximumSteps)
+                if (token.MovedSteps + DieRoll == token.MaximumSteps)
                 {
                     SelectToken(token);
-                    return token;
+                    return true;
                 }
             }
-            return null;
+            return false;
         }
 
         public int GetNumberOfStartLockedTokens()
@@ -90,7 +86,7 @@ namespace GameEngine.Classes
 
             foreach (var token in Tokens)
             {
-                if (token.HasFinished == false && token.MovedSteps + DieRoll <= MaximumSteps && token.Position != null && !AmIBlocking(token))
+                if (token.HasFinished == false && token.MovedSteps + DieRoll <= token.MaximumSteps && token.Position != null && !AmIBlocking(token))
                 {
                     ++number;
                 }
@@ -98,11 +94,28 @@ namespace GameEngine.Classes
             return number;
         }
 
+        internal bool CanTokenMove(Token mainToken)
+        {
+            if (mainToken.Position == null && DieRoll != 6)
+            {
+                return false;
+            }
+            else if (mainToken.MovedSteps + DieRoll > mainToken.MaximumSteps)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public bool AmIBlocking(Token mainToken)
         {
             foreach (var token in Tokens)
             {
-                if (token.Position != null && token != mainToken && token.Position + DieRoll == mainToken.Position)
+                if (mainToken.Position == null && token.MovedSteps == 1 && DieRoll == 6)
+                {
+                    return true;
+                }
+                else if (token.Position != null && token != mainToken && token.Position + DieRoll == mainToken.Position)
                 {
                     return true;
                 }
@@ -143,7 +156,7 @@ namespace GameEngine.Classes
         {
             foreach (var token in Tokens)
             {
-                if (token.Position != null && token.MovedSteps + DieRoll <= MaximumSteps)
+                if (token.Position != null && token.MovedSteps + DieRoll <= token.MaximumSteps)
                 {
                     SelectToken(token);
                     return token;

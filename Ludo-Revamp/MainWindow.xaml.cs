@@ -57,6 +57,10 @@ namespace Ludo_Revamp
                     }
                 }
             }
+            if (Engine.Game.WhoseTurnIsIt().HasMoved)
+            {
+                Engine.EndTurn();
+            }
         }
 
         public void RollDie_Click(object sender, RoutedEventArgs e)
@@ -70,7 +74,13 @@ namespace Ludo_Revamp
 
         private void PlayerToken_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            Ellipse ellipse = (Ellipse)sender;
+            Engine.Game.DeselectTokens();
+            ellipse.StrokeThickness = 2;
+            if (!Diebutton.IsEnabled)
+            {
+                PlayGame();
+            }
         }
 
         public void LoadGame_Click(object sender, RoutedEventArgs e)
@@ -141,7 +151,7 @@ namespace Ludo_Revamp
             }
             else if (token.IsOnFinishLine)
             {
-                int maxSteps = Engine.Game.WhoseTurnIsIt().MaximumMainBoardSteps;
+                int maxSteps = Engine.Game.Players[0].Tokens[0].MaximumMainBoardSteps;
                 Grid.SetColumn(token.Ellipse, FinishPositionsGUI[token.PlayerNumber].Finish[token.MovedSteps - maxSteps].Column);
                 Grid.SetRow(token.Ellipse, FinishPositionsGUI[token.PlayerNumber].Finish[token.MovedSteps - maxSteps].Row);
             }

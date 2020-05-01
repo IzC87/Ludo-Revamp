@@ -15,6 +15,10 @@ namespace GameEngine.Classes
 
 		[NotMapped]
 		public Ellipse Ellipse { get; set; }
+		[NotMapped]
+		public readonly int MaximumSteps = 57;
+		[NotMapped]
+		public readonly int MaximumMainBoardSteps = 52;
 
 	}
 }

@@ -26,6 +26,17 @@ namespace GameEngine.Classes
             return false;
         }
 
+        public void DeselectTokens()
+        {
+            foreach (var player in Players)
+            {
+                foreach (var token in player.Tokens)
+                {
+                    token.Ellipse.StrokeThickness = 0;
+                }
+            }
+        }
+
         public Player WhoseTurnIsIt()
         {
             foreach (var player in Players)
