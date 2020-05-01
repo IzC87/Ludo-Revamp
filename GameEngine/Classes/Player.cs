@@ -90,7 +90,7 @@ namespace GameEngine.Classes
 
             foreach (var token in Tokens)
             {
-                if (token.HasFinished == false && token.MovedSteps + DieRoll <= MaximumSteps && token.Position != null && !AmIBlocking(token.Position))
+                if (token.HasFinished == false && token.MovedSteps + DieRoll <= MaximumSteps && token.Position != null && !AmIBlocking(token))
                 {
                     ++number;
                 }
@@ -98,11 +98,11 @@ namespace GameEngine.Classes
             return number;
         }
 
-        public bool AmIBlocking(int? position)
+        public bool AmIBlocking(Token mainToken)
         {
             foreach (var token in Tokens)
             {
-                if (token.Position + DieRoll == position)
+                if (token.Position != null && token != mainToken && token.Position + DieRoll == mainToken.Position)
                 {
                     return true;
                 }

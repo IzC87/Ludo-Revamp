@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace GameEngine
 {
@@ -26,14 +23,69 @@ namespace GameEngine
         public List<Token> PlayGame()
         {
             List<Token> tokens = new List<Token>();
+            var player = Game.WhoseTurnIsIt();
 
-            if (Game.WhoseTurnIsIt().Computer)
+            if (player.Computer)
             {
                 RollDie();
-
+                if (CanPlayerMove(player))
+                {
+                    
+                }
+                else
+                {
+                    EndTurn();
+                }
             }
 
             return tokens;
+        }
+
+        internal bool CanPlayerMove(Player player)
+        {
+            // Check if the player is locked in start and needs a 6
+            if (IsPlayerLockedInStart(player))
+            {
+                return false;
+            }
+            else if (IsPlayerFinishLocked(player))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool IsPlayerFinishLocked(Player player)
+        {
+            foreach (var token in player.Tokens)
+            {
+                if (token.Position == null || token.MovedSteps + player.DieRoll <= player.MaximumSteps)
+                {
+                    return false;
+                }
+                else if (token.Position != null && token.MovedSteps + player.DieRoll > player.MaximumSteps)
+                {
+                    AddMessageToHistoryList($"P{player.PlayerNumber + 1} T{token.TokenNumber + 1} needs a {player.MaximumSteps - token.Position} to finish!");
+                }
+            }
+            return true;
+        }
+
+        private bool IsPlayerLockedInStart(Player player)
+        {
+            if (player.DieRoll == 6)
+            {
+                return false;
+            }
+            foreach (var token in player.Tokens)
+            {
+                if (token.Position != null)
+                {
+                    return false;
+                }
+            }
+            AddMessageToHistoryList($"P{player.PlayerNumber + 1} needs a 6 to start ({player.DieRoll})");
+            return true;
         }
 
         public void EndTurn()
@@ -43,10 +95,30 @@ namespace GameEngine
             player.HasPlayerFinished();
 
             player.HasMoved = false;
-            player.NumberOfRolls = 0;
             player.DieRoll = 0;
 
+            if (CanPlayerGoAgain(player))
+            {
+                ++player.NumberOfRolls;
+            }
+            else
+            {
+                player.NumberOfRolls = 0;
+            }
+
+
+            Context.SaveChanges();
+
             Game.NextPlayerTurn();
+        }
+
+        private bool CanPlayerGoAgain(Player player)
+        {
+            if (player.DieRoll == 6 && player.HasFinished == false && player.NumberOfRolls < 3)
+            {
+                return true;
+            }
+            return false;
         }
 
         public void AddMessageToHistoryList(string message)
@@ -74,7 +146,6 @@ namespace GameEngine
                 PlayersScore[token.PlayerNumber].Insert(token.TokenNumber + 1, $"T{token.TokenNumber + 1}: " + Game.Players[token.PlayerNumber].Tokens[token.TokenNumber].MovedSteps);
             }
         }
-
 
         public int RollDie()
         {
