@@ -25,13 +25,56 @@ namespace GameEngine
 
         public List<Token> PlayGame()
         {
+            List<Token> tokens = new List<Token>();
 
+            if (Game.WhoseTurnIsIt().Computer)
+            {
+                RollDie();
+
+            }
+
+            return tokens;
         }
 
         public void EndTurn()
         {
+            var player = Game.WhoseTurnIsIt();
 
+            player.HasPlayerFinished();
+
+            player.HasMoved = false;
+            player.NumberOfRolls = 0;
+            player.DieRoll = 0;
+
+            Game.NextPlayerTurn();
         }
+
+        public void AddMessageToHistoryList(string message)
+        {
+            HistoryList.Insert(0, message);
+        }
+
+        public void UpdatePlayerScore(Token token)
+        {
+            // Remove the list item in order to replace it
+            PlayersScore[token.PlayerNumber].RemoveAt(token.TokenNumber + 1);
+
+            // If the token has finished write that it has finished
+            if (Game.Players[token.PlayerNumber].Tokens[token.TokenNumber].HasFinished)
+            {
+                PlayersScore[token.PlayerNumber].Insert(token.TokenNumber + 1, $"T{token.TokenNumber + 1}: has finished!");
+            }
+            // If the token is locked in start, write that
+            else if (Game.Players[token.PlayerNumber].Tokens[token.TokenNumber].Position == null)
+            {
+                PlayersScore[token.PlayerNumber].Insert(token.TokenNumber + 1, $"T{token.TokenNumber + 1}: is in start");
+            }
+            else
+            {
+                PlayersScore[token.PlayerNumber].Insert(token.TokenNumber + 1, $"T{token.TokenNumber + 1}: " + Game.Players[token.PlayerNumber].Tokens[token.TokenNumber].MovedSteps);
+            }
+        }
+
 
         public int RollDie()
         {

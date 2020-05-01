@@ -17,6 +17,8 @@ namespace GameEngine.Classes
         public int NumberOfRolls { get; set; }
 
         [NotMapped]
+        public bool HasMoved { get; set; }
+        [NotMapped]
         public readonly int MaximumSteps = 57;
         [NotMapped]
         public readonly int MaximumMainBoardSteps = 52;

@@ -52,7 +52,7 @@ namespace Ludo_Revamp
                 {
                     if (token != null)
                     {
-                        //Engine.UpdatePlayerScore(token);
+                        Engine.UpdatePlayerScore(token);
                         MoveToken(token);
                     }
                 }
@@ -96,7 +96,7 @@ namespace Ludo_Revamp
                     {
                         if (token != null)
                         {
-                            //Engine.UpdatePlayerScore(token);
+                            Engine.UpdatePlayerScore(token);
                             MoveToken(token);
                         }
                     }
@@ -120,7 +120,7 @@ namespace Ludo_Revamp
 
             // Start the new game
             Diebutton.IsEnabled = true;
-            //PlayGame();
+            PlayGame();
         }
 
         private void MoveToken(Token token)
@@ -129,7 +129,7 @@ namespace Ludo_Revamp
             if (token.Position == null)
             {
                 // Token was pushed back to start, so we add it to the history list
-                //Engine.AddMessageToHistoryList($"P{token.PlayerNumber + 1} was pushed to start");
+                Engine.AddMessageToHistoryList($"P{token.PlayerNumber + 1} was pushed to start");
 
                 Grid.SetColumn(token.Ellipse, StartingPositionsGUI[token.PlayerNumber].Start[token.TokenNumber].Column);
                 Grid.SetRow(token.Ellipse, StartingPositionsGUI[token.PlayerNumber].Start[token.TokenNumber].Row);
