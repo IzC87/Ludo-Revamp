@@ -113,11 +113,6 @@
             Grid.Row="0"
             Grid.Column="16"
             Grid.RowSpan="9">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name, Mode=TwoWay}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
         </ListView>
 
 

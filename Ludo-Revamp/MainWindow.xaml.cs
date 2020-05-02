@@ -45,6 +45,12 @@ namespace Ludo_Revamp
 
         private void PlayGame()
         {
+            var player = Engine.Game.WhoseTurnIsIt();
+            if (!player.Computer && player.DieRoll == 0)
+            {
+                Diebutton.IsEnabled = true;
+            }
+
             var tokensToMove = Engine.PlayGame();
             if (tokensToMove != null)
             {
@@ -57,9 +63,11 @@ namespace Ludo_Revamp
                     }
                 }
             }
-            if (Engine.Game.WhoseTurnIsIt().HasMoved)
+
+            if (player.HasMoved)
             {
                 Engine.EndTurn();
+                PlayGame();
             }
         }
 
@@ -68,7 +76,8 @@ namespace Ludo_Revamp
             int dieRoll = Engine.RollDie();
             Diebutton.Content = dieRoll;
             Diebutton.IsEnabled = false;
-            Engine.DeselectSelectedTokens();
+            Engine.Game.DeselectTokens();
+            Engine.Game.WhoseTurnIsIt().DieRoll = dieRoll;
             PlayGame();
         }
 
@@ -146,6 +155,8 @@ namespace Ludo_Revamp
             }
             else if (token.HasFinished)
             {
+                Engine.AddMessageToHistoryList($"P{token.PlayerNumber + 1} finished with T{token.TokenNumber + 1}");
+
                 Grid.SetColumn(token.Ellipse, FinishPositionsGUI[token.PlayerNumber].Finish[5].Column);
                 Grid.SetRow(token.Ellipse, FinishPositionsGUI[token.PlayerNumber].Finish[5].Row);
             }

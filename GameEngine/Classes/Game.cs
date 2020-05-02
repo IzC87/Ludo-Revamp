@@ -16,16 +16,6 @@ namespace GameEngine.Classes
 
         public DateTime GameCreationTime { get; set; }
 
-
-        public bool IsPlayerComputer()
-        {
-            if (WhoseTurnIsIt().Computer)
-            {
-                return true;
-            }
-            return false;
-        }
-
         public void DeselectTokens()
         {
             foreach (var player in Players)
@@ -101,6 +91,23 @@ namespace GameEngine.Classes
                 }
             }
             return numberOfPlayers;
+        }
+
+        internal Token GetOccupyingToken(Token movedToken)
+        {
+            foreach (var player in Players)
+            {
+                foreach (var token in player.Tokens)
+                {
+                    if (token.Position == movedToken.Position && token.IsOnFinishLine == false && movedToken != token && movedToken.IsOnFinishLine == false)
+                    {
+                        token.Position = null;
+                        token.MovedSteps = 0;
+                        return token;
+                    }
+                }
+            }
+            return null;
         }
     }
 }

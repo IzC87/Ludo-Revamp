@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace GameEngine
 {
@@ -25,213 +26,156 @@ namespace GameEngine
             List<Token> tokens = new List<Token>();
             var player = Game.WhoseTurnIsIt();
 
-            // Current player is a Computer
+            // Player is Computer
             if (player.Computer)
             {
-                RollDie();
-                if (CanPlayerMove(player))
+                // Computer needs to roll the die
+                if (player.DieRoll == 0)
                 {
-                    do
-                    {
-                        tokens = MakeMoveForComputer(player);
-                    } while (!player.HasMoved);
+                    player.DieRoll = RollDie();
+                }
+
+                // Make move for computer
+                var moveableTokens = player.GetMovableTokens();
+                if (moveableTokens.Count == 1)
+                {
+                    tokens = MoveToken(moveableTokens[0]);
+                }
+
+                // computer can move more than one token so we select a random movable token to move
+                else if (moveableTokens.Count > 1)
+                {
+                    var token = moveableTokens[randomSeed.Next(0, moveableTokens.Count)];
+                    tokens = MoveToken(token);
+                }
+                else if (player.IsStartLocked())
+                {
+                    AddMessageToHistoryList($"P{player.PlayerNumber + 1} needs a 6 to start! ({player.DieRoll})");
+                    player.HasMoved = true;
+                    player.NumberOfRolls = 3;
                 }
                 else
                 {
-                    EndTurn();
+                    player.HasMoved = true;
                 }
             }
-            // Current Player is a real person
+            // Player is a real person
             else
             {
-                // Player hasn't rolled the die yet.
+                // Player needs to roll the die
                 if (player.DieRoll == 0)
                 {
                     // Tell the user that it's their turn
                     AddMessageToHistoryList($"It's your turn P{player.PlayerNumber + 1}!");
                 }
-                else if (CanPlayerMove(player))
-                {
-                    var token = player.GetSelectedToken();
-                    if (token == null)
-                    {
-                        AddMessageToHistoryList("Select a token to move");
-                    }
-                    else if (player.AmIBlocking(token))
-                    {
-                        AddMessageToHistoryList("You are blocking yourself");
-                    }
-                    else if (player.CanTokenMove(token))
-                    {
-                        MoveSelectedToken();
-                    }
-                }
+                // Make move for player
                 else
                 {
-                    EndTurn();
+                    var moveableTokens = player.GetMovableTokens();
+                    if (moveableTokens.Count == 1)
+                    {
+                        tokens = MoveToken(moveableTokens[0]);
+                    }
+                    // Player can move more than one token
+                    else if (moveableTokens.Count > 1)
+                    {
+                        var token = player.GetSelectedToken();
+                        // No Token selected
+                        if (token == null)
+                        {
+                            AddMessageToHistoryList("Select a token to move");
+                        }
+                        // If token can be moved then we move it
+                        else if(player.CanTokenMove(token))
+                        {
+                            tokens = MoveToken(token);
+                        }
+                        else
+                        {
+                            AddMessageToHistoryList("Unable to move that token");
+                        }
+                    }
+                    else if (player.IsStartLocked())
+                    {
+                        AddMessageToHistoryList($"P{player.PlayerNumber + 1} needs a 6 to start! ({player.DieRoll})");
+                        player.HasMoved = true;
+                        player.NumberOfRolls = 3;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Why am I here?");
+                    }
                 }
-                
             }
 
             return tokens;
         }
 
-        private List<Token> MakeMoveForComputer(Player player)
-        {
-            List<Token> tokens;
-            if (player.SelectTokenThatCanFinish())
-            {
-                tokens = MoveSelectedToken();
-            }
-            else
-            {
-                player.SelectRandomTokenForComputer(randomSeed);
-                tokens = MoveSelectedToken();
-            }
-
-            return tokens;
-        }
-
-        private List<Token> MoveSelectedToken()
+        private List<Token> MoveToken(Token token)
         {
             List<Token> tokens = new List<Token>();
             var player = Game.WhoseTurnIsIt();
-            var token = player.GetSelectedToken();
+            var newPosition = GetNewPosition(token, player.DieRoll);
 
-
-            int position = GetNewPosition(token, player.DieRoll);
-
+            // Token har just left the starting zone if Position == null
             if (token.Position == null)
             {
                 token.MovedSteps = 1;
+                AddMessageToHistoryList($"P{player.PlayerNumber + 1} moved 1 steps. ({player.DieRoll})");
             }
             else
             {
                 token.MovedSteps += player.DieRoll;
+                AddMessageToHistoryList($"P{player.PlayerNumber + 1} moved {player.DieRoll} steps.");
             }
 
-            token.Position = position;
+            // Update the token pos and that the player has moved
+            token.Position = newPosition;
+            player.HasMoved = true;
 
-            if (token.MovedSteps > 51)
-            {
-                token.IsOnFinishLine = true;
-            }
+            // Add the token to list to move it in the GUI later
+            tokens.Add(token);
 
-            // See if the space is already occupied, if it is get that Token# to push it back to start
-            var tokenToPushBack = GetOccupyingToken(position, token);
+            // Do some checks to see where the token is
+            token.CheckIfTokenHasFinished();
+            token.CheckIfTokenIsOnFinishLine();
+
+            // Check if the token will bump another player back to start
+            var tokenToPushBack = Game.GetOccupyingToken(token);
             if (tokenToPushBack != null)
             {
                 tokens.Add(tokenToPushBack);
             }
 
-            CheckIfTokenFinished(token);
-
-            AddMessageToHistoryList($"P{player.PlayerNumber + 1} moved {player.DieRoll} steps.");
-            tokens.Add(token);
-            player.HasMoved = true;
             return tokens;
-        }
-
-        private Token GetOccupyingToken(int position, Token movedToken)
-        {
-            foreach (var player in Game.Players)
-            {
-                if (player.PlayerNumber != movedToken.PlayerNumber)
-                {
-                    foreach (var token in player.Tokens)
-                    {
-                        if (token.Position == position && token.IsOnFinishLine == false && movedToken != token && movedToken.IsOnFinishLine == false)
-                        {
-                            token.Position = null;
-                            token.MovedSteps = 0;
-                            return token;
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-
-        private void CheckIfTokenFinished(Token token)
-        {
-            if (token.MovedSteps == token.MaximumSteps)
-            {
-                AddMessageToHistoryList($"P{Game.WhoseTurnIsIt().PlayerNumber + 1} finished with token {token.TokenNumber + 1}");
-                token.HasFinished = true;
-            }
         }
 
         private int GetNewPosition(Token token, int dieRoll)
         {
-            int position;
+            int newPosition;
 
+            // Token will start
             if (token.Position == null)
             {
-                position = GetStartPosition(token.PlayerNumber);
+                newPosition = GetStartPosition(token.PlayerNumber);
             }
             else
             {
-                position = int.Parse(token.Position.ToString());
-                position += dieRoll;
-            }
-            if (position > token.MaximumMainBoardSteps)
-            {
-                position -= token.MaximumMainBoardSteps;
+                newPosition = int.Parse(token.Position.ToString()) + dieRoll;
             }
 
-            return position;
+            // Check if we need to restart postion
+            if (newPosition >= token.MaximumMainBoardSteps && token.MovedSteps < token.MaximumMainBoardSteps)
+            {
+                newPosition -= token.MaximumMainBoardSteps;
+            }
+
+            return newPosition;
         }
 
-        public int GetStartPosition(int playerNumber)
+        private int GetStartPosition(int playerNumber)
         {
             return playerNumber * 13 + 1;
-        }
-
-        internal bool CanPlayerMove(Player player)
-        {
-            // Check if the player is locked in start and needs a 6
-            if (IsPlayerLockedInStart(player))
-            {
-                return false;
-            }
-            else if (IsPlayerFinishLocked(player))
-            {
-                return false;
-            }
-            return true;
-        }
-
-        private bool IsPlayerFinishLocked(Player player)
-        {
-            foreach (var token in player.Tokens)
-            {
-                if (token.Position == null || token.MovedSteps + player.DieRoll <= token.MaximumSteps)
-                {
-                    return false;
-                }
-                else if (token.Position != null && token.MovedSteps + player.DieRoll > token.MaximumSteps)
-                {
-                    AddMessageToHistoryList($"P{player.PlayerNumber + 1} T{token.TokenNumber + 1} needs a {token.MaximumSteps - token.Position} to finish!");
-                }
-            }
-            return true;
-        }
-
-        private bool IsPlayerLockedInStart(Player player)
-        {
-            if (player.DieRoll == 6)
-            {
-                return false;
-            }
-            foreach (var token in player.Tokens)
-            {
-                if (token.Position != null)
-                {
-                    return false;
-                }
-            }
-            AddMessageToHistoryList($"P{player.PlayerNumber + 1} needs a 6 to start ({player.DieRoll})");
-            return true;
         }
 
         public void EndTurn()
@@ -240,11 +184,9 @@ namespace GameEngine
 
             player.HasPlayerFinished();
 
-            player.HasMoved = false;
-            player.DieRoll = 0;
-
             if (CanPlayerGoAgain(player))
             {
+                AddMessageToHistoryList($"P{player.PlayerNumber + 1} can go again!");
                 ++player.NumberOfRolls;
             }
             else
@@ -253,13 +195,15 @@ namespace GameEngine
                 Game.NextPlayerTurn();
             }
 
+            player.HasMoved = false;
+            player.DieRoll = 0;
 
             Context.SaveChanges();
         }
 
         private bool CanPlayerGoAgain(Player player)
         {
-            if (player.DieRoll == 6 && player.HasFinished == false && player.NumberOfRolls < 3)
+            if (player.DieRoll == 6 && player.HasFinished == false && player.NumberOfRolls < 2)
             {
                 return true;
             }
@@ -295,24 +239,13 @@ namespace GameEngine
         public int RollDie()
         {
             var roll = randomSeed.Next(1, 7);
-            Game.WhoseTurnIsIt().DieRoll = roll;
             return roll;
-        }
-
-        public void DeselectSelectedTokens()
-        {
-            foreach (var player in Game.Players)
-            {
-                foreach (var token in player.Tokens)
-                {
-                    token.Ellipse.StrokeThickness = 0;
-                }
-            }
         }
 
         public void LaunchConfiguration()
         {
             Game = StartUp.CreatePlayers();
+            PlayersScore = StartUp.CreatePlayersScoreList();
             Context.Add(Game);
 
             SavedGames = Load.LoadSavedGames();
@@ -321,7 +254,6 @@ namespace GameEngine
         public List<Token> LoadGame(Game game)
         {
             List<Token> tokens = new List<Token>();
-
             Game = Load.LoadGame(game);
 
             foreach (var player in Game.Players)

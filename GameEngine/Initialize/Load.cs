@@ -15,7 +15,6 @@ namespace GameEngine.Initialize
             Game game;
             using (var context = new MyContext())
             {
-                //game = context.Games.Where(g => g.Name == gameName).FirstOrDefault();
                 game = context.Games
                     .Where(g => (g.Name == gameHandle.Name && g.GameCreationTime == gameHandle.GameCreationTime))
                     .Include("Players.Tokens")

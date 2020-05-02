@@ -1,6 +1,7 @@
 ﻿using GameEngine.Classes;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace GameEngine.Initialize
 {
@@ -48,6 +49,21 @@ namespace GameEngine.Initialize
             }
 
             return game;
+        }
+
+        internal static List<ObservableCollection<string>> CreatePlayersScoreList()
+        {
+            var playersScore = new List<ObservableCollection<string>>();
+            for (int i = 0; i < 4; i++)
+            {
+                playersScore.Add(new ObservableCollection<string>());
+                playersScore[i].Add($"Player {i + 1} score:");
+                for (int j = 0; j < 4; j++)
+                {
+                    playersScore[i].Add($"T{j + 1}: is in start");
+                }
+            }
+            return playersScore;
         }
     }
 }

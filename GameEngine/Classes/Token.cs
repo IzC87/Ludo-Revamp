@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Windows.Shapes;
 
 namespace GameEngine.Classes
@@ -20,5 +21,20 @@ namespace GameEngine.Classes
 		[NotMapped]
 		public readonly int MaximumMainBoardSteps = 52;
 
+		internal void CheckIfTokenHasFinished()
+		{
+			if (MovedSteps == MaximumSteps)
+			{
+				HasFinished = true;
+			}
+		}
+
+		internal void CheckIfTokenIsOnFinishLine()
+		{
+			if (MovedSteps > MaximumMainBoardSteps)
+			{
+				IsOnFinishLine = true;
+			}
+		}
 	}
 }

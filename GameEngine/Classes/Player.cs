@@ -38,6 +38,66 @@ namespace GameEngine.Classes
             return false;
         }
 
+        internal List<Token> GetMovableTokens()
+        {
+            List<Token> moveableTokens = new List<Token>();
+            foreach (var token in Tokens)
+            {
+                if (CanTokenMove(token))
+                {
+                    moveableTokens.Add(token);
+                }
+            }
+            return moveableTokens;
+        }
+
+        internal bool CanTokenMove(Token mainToken)
+        {
+            // Token is locked in start
+            if (mainToken.Position == null && DieRoll != 6)
+            {
+                return false;
+            }
+            // Token will move too far
+            else if (mainToken.MovedSteps + DieRoll > mainToken.MaximumSteps)
+            {
+                return false;
+            }
+            else if (AmIBlockingMySelf(mainToken))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool AmIBlockingMySelf(Token mainToken)
+        {
+            foreach (var token in Tokens)
+            {
+                if (mainToken.Position == null && token.MovedSteps == 1 && DieRoll == 6)
+                {
+                    return true;
+                }
+                else if (token.Position != null && token != mainToken && mainToken.Position + DieRoll == token.Position)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        internal bool IsStartLocked()
+        {
+            foreach (var token in Tokens)
+            {
+                if (token.Position == null && DieRoll != 6)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public Token GetSelectedToken()
         {
             foreach (var token in Tokens)
@@ -48,139 +108,6 @@ namespace GameEngine.Classes
                 }
             }
             return null;
-        }
-
-        public bool SelectTokenThatCanFinish()
-        {
-            foreach (var token in Tokens)
-            {
-                if (token.MovedSteps + DieRoll == token.MaximumSteps)
-                {
-                    SelectToken(token);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public int GetNumberOfStartLockedTokens()
-        {
-            int number = 0;
-            foreach (var token in Tokens)
-            {
-                if (token.Position == null && token.HasFinished == false)
-                {
-                    ++number;
-                }
-            }
-            return number;
-        }
-
-        public int GetNumberOfMovableTokens()
-        {
-            int number = 0;
-            if (DieRoll == 6)
-            {
-                number = GetNumberOfStartLockedTokens();
-            }
-
-            foreach (var token in Tokens)
-            {
-                if (token.HasFinished == false && token.MovedSteps + DieRoll <= token.MaximumSteps && token.Position != null && !AmIBlocking(token))
-                {
-                    ++number;
-                }
-            }
-            return number;
-        }
-
-        internal bool CanTokenMove(Token mainToken)
-        {
-            if (mainToken.Position == null && DieRoll != 6)
-            {
-                return false;
-            }
-            else if (mainToken.MovedSteps + DieRoll > mainToken.MaximumSteps)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool AmIBlocking(Token mainToken)
-        {
-            foreach (var token in Tokens)
-            {
-                if (mainToken.Position == null && token.MovedSteps == 1 && DieRoll == 6)
-                {
-                    return true;
-                }
-                else if (token.Position != null && token != mainToken && token.Position + DieRoll == mainToken.Position)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public Token SelectRandomTokenForComputer(Random random)
-        {
-            var numberOfLockedTokens = GetNumberOfStartLockedTokens();
-            if (DieRoll == 6 && numberOfLockedTokens > 0 && numberOfLockedTokens < 4)
-            {
-                if (random.Next(1, 3) > 1)
-                {
-                    return SelectLockedToken();
-                }
-                else
-                {
-                    var token = SelectUnlockedToken();
-                    if (token == null)
-                    {
-                        return SelectLockedToken();
-                    }
-                    return token;
-                }
-            }
-            else if (numberOfLockedTokens == 4)
-            {
-                return SelectLockedToken();
-            }
-            else
-            {
-                return SelectUnlockedToken();
-            }
-        }
-
-        public Token SelectUnlockedToken()
-        {
-            foreach (var token in Tokens)
-            {
-                if (token.Position != null && token.MovedSteps + DieRoll <= token.MaximumSteps)
-                {
-                    SelectToken(token);
-                    return token;
-                }
-            }
-            return null;
-        }
-
-        public Token SelectLockedToken()
-        {
-            foreach (var token in Tokens)
-            {
-                if (token.Position == null)
-                {
-                    SelectToken(token);
-                    return token;
-                }
-            }
-            return null;
-        }
-
-        public void SelectToken(Token token)
-        {
-            token.Ellipse.StrokeThickness = 2;
         }
     }
 }

@@ -63,10 +63,10 @@ namespace Ludo_Revamp
 
             SavedGamesList.ItemsSource = Engine.SavedGames;
             HistoryListview.ItemsSource = Engine.HistoryList;
-            //Player1Scores.ItemsSource = Engine.PlayersScore[0];
-            //Player2Scores.ItemsSource = Engine.PlayersScore[1];
-            //Player3Scores.ItemsSource = Engine.PlayersScore[2];
-            //Player4Scores.ItemsSource = Engine.PlayersScore[3];
+            Player1Scores.ItemsSource = Engine.PlayersScore[0];
+            Player2Scores.ItemsSource = Engine.PlayersScore[1];
+            Player3Scores.ItemsSource = Engine.PlayersScore[2];
+            Player4Scores.ItemsSource = Engine.PlayersScore[3];
         }
 
         private void LoadPlayerTokensGUI()
