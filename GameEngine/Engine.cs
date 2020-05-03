@@ -225,6 +225,7 @@ namespace GameEngine
             {
                 PlayersScore[token.PlayerNumber].Insert(token.TokenNumber + 1, $"T{token.TokenNumber + 1}: has finished!");
             }
+
             // If the token is locked in start, write that
             else if (Game.Players[token.PlayerNumber].Tokens[token.TokenNumber].Position == null)
             {

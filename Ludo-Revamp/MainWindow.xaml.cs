@@ -1,23 +1,11 @@
 ﻿using GameEngine;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GameEngine.Classes;
-using Newtonsoft.Json;
 using Ludo_Revamp.Classes;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ludo_Revamp
 {
@@ -46,11 +34,14 @@ namespace Ludo_Revamp
         private void PlayGame()
         {
             var player = Engine.Game.WhoseTurnIsIt();
+
+            // If it's a real persons turn, we enable the die button.
             if (!player.Computer && player.DieRoll == 0)
             {
                 Diebutton.IsEnabled = true;
             }
 
+            // Play the game, this method returns a list of tokens to move on the board.
             var tokensToMove = Engine.PlayGame();
             if (tokensToMove != null)
             {
@@ -115,11 +106,18 @@ namespace Ludo_Revamp
                     {
                         if (token != null)
                         {
-                            Engine.UpdatePlayerScore(token);
                             MoveToken(token);
                         }
                     }
                 }
+
+                // Tell the user that the game has finished loading
+                Engine.HistoryList.Clear();
+                Engine.AddMessageToHistoryList("Game loaded");
+            }
+            else
+            {
+                Engine.AddMessageToHistoryList("Unable to load game.");
             }
         }
 
