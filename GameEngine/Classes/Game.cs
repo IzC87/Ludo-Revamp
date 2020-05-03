@@ -16,14 +16,19 @@ namespace GameEngine.Classes
 
         public bool HasGameFinished()
         {
+            int finishedPlayers = 0;
             foreach (var player in Players)
             {
-                if (!player.HasFinished)
+                if (player.HasFinished)
                 {
-                    return false;
+                    ++finishedPlayers;
                 }
             }
-            return true;
+            if (finishedPlayers >= GetNumberOfPlayers() - 1)
+            {
+                return true;
+            }
+            return false;
         }
 
         public void DeselectTokens()

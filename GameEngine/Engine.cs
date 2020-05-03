@@ -161,7 +161,7 @@ namespace GameEngine
             }
 
             // Check if we need to restart postion
-            if (newPosition >= token.MaximumMainBoardSteps && token.MovedSteps < token.MaximumMainBoardSteps)
+            if (newPosition >= token.MaximumMainBoardSteps && token.MovedSteps <= token.MaximumMainBoardSteps)
             {
                 newPosition -= token.MaximumMainBoardSteps;
             }
@@ -178,18 +178,13 @@ namespace GameEngine
         {
             var player = Game.WhoseTurnIsIt();
 
-
             if (player.HasFinished == false && player.HasPlayerFinished())
             {
                 player.FinishPosition = Game.GetFinishPosition();
 
                 // Congratulate Player
-                if (player.Computer == false)
-                {
-                    MessageBox.Show($"Congratulations! You finished {player.FinishPosition}");
-                }
+                MessageBox.Show($"Congratulations player {player.PlayerNumber + 1}! You finished {player.FinishPosition}");
             }
-
 
             if (CanPlayerGoAgain(player))
             {

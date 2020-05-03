@@ -55,7 +55,6 @@ namespace Ludo_Revamp
 
             // InitializeGUI
             AddPlayerTokensGUI();
-            AddPlayerFinishLabelGUI();
 
             // Load positions on board from JSON
             BoardPositionsGUI = JsonConvert.DeserializeObject<List<BoardPositionsGUI>>(File.ReadAllText(@".\JSON\BoardPositions.json"));
@@ -69,36 +68,6 @@ namespace Ludo_Revamp
             Player2Scores.ItemsSource = Engine.PlayersScore[1];
             Player3Scores.ItemsSource = Engine.PlayersScore[2];
             Player4Scores.ItemsSource = Engine.PlayersScore[3];
-        }
-
-        private void AddPlayerFinishLabelGUI()
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                TextBlock textBlock = new TextBlock
-                {
-                    FontSize = 25,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center
-                };
-                TextBlocks.Add(textBlock);
-            }
-
-            Grid.SetRow(TextBlocks[0], 2);
-            Grid.SetColumn(TextBlocks[0], 2);
-            Grid.SetColumnSpan(TextBlocks[0], 4);
-
-            Grid.SetRow(TextBlocks[1], 2);
-            Grid.SetColumn(TextBlocks[1], 11);
-            Grid.SetColumnSpan(TextBlocks[1], 4);
-
-            Grid.SetRow(TextBlocks[2], 11);
-            Grid.SetColumn(TextBlocks[2], 11);
-            Grid.SetColumnSpan(TextBlocks[2], 4);
-
-            Grid.SetRow(TextBlocks[3], 11);
-            Grid.SetColumn(TextBlocks[3], 2);
-            Grid.SetColumnSpan(TextBlocks[3], 4);
         }
 
         private void LoadPlayerTokensGUI()

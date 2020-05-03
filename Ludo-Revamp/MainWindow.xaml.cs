@@ -6,6 +6,8 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using GameEngine.Classes;
 using Ludo_Revamp.Classes;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ludo_Revamp
 {
@@ -18,7 +20,6 @@ namespace Ludo_Revamp
         public List<FinishPositionsGUI> FinishPositionsGUI = new List<FinishPositionsGUI>();
 
         public List<Ellipse> Ellipses = new List<Ellipse>();
-        public List<TextBlock> TextBlocks = new List<TextBlock>();
 
         public MainWindow()
         {
@@ -56,11 +57,6 @@ namespace Ludo_Revamp
                 }
             }
 
-            if (player.HasFinished)
-            {
-                TextBlocks[player.PlayerNumber].Text = "Finish position: " + player.FinishPosition;
-            }
-
             if (player.HasMoved && Engine.Game.HasGameFinished() == false)
             {
                 Engine.EndTurn();
@@ -93,7 +89,7 @@ namespace Ludo_Revamp
         {
             // Get the selected game
             var game = (Game)SavedGamesList.SelectedItem;
-            if (game != null)
+            if (game != null && game.Name != null)
             {
                 // Update the game name textbox
                 GameNameBox.Text = game.Name;
@@ -112,6 +108,7 @@ namespace Ludo_Revamp
                     {
                         if (token != null)
                         {
+                            Engine.UpdatePlayerScore(token);
                             MoveToken(token);
                         }
                     }
@@ -120,6 +117,7 @@ namespace Ludo_Revamp
                 // Tell the user that the game has finished loading
                 Engine.HistoryList.Clear();
                 Engine.AddMessageToHistoryList("Game loaded");
+                PlayGame();
             }
             else
             {
@@ -129,6 +127,20 @@ namespace Ludo_Revamp
 
         public void NewGame_Click(object sender, RoutedEventArgs e)
         {
+            // Trying to delete duplicate
+            Game game;
+            using (var context = new MyContext())
+            {
+                game = context.Games
+                    .Where(g => g.Name == GameNameBox.Text)
+                    .Include("Players.Tokens")
+                    .FirstOrDefault();
+                if (game != null)
+                {
+                    context.Games.Remove(game);
+                }
+            }
+
             // Initialize new game by setting up the GUI
             InitializeNewGameGUI(NumberOfPlayersList.SelectedIndex + NumberOfComputersList.SelectedIndex);
 

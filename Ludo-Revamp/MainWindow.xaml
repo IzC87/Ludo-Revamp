@@ -264,17 +264,16 @@
             Grid.RowSpan="3"
             BorderBrush="Black"
             BorderThickness="2"/>
-            <Border
+        <Border
             Grid.Row="6"
             Grid.Column="6"
             Grid.RowSpan="3"
             BorderBrush="Black"
             BorderThickness="2"/>
-
             
             
             
-            <!-- Player two start field -->
+        <!-- Player two start field -->
             <Border
             Background="Purple"
             Grid.Row="0"

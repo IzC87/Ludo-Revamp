@@ -30,7 +30,7 @@ namespace GameEngine.Classes
 
 		internal void CheckIfTokenIsOnFinishLine()
 		{
-			if (MovedSteps > MaximumMainBoardSteps)
+			if (MovedSteps >= MaximumMainBoardSteps)
 			{
 				IsOnFinishLine = true;
 			}
