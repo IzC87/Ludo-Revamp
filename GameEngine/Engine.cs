@@ -101,10 +101,6 @@ namespace GameEngine
                         player.HasMoved = true;
                         player.NumberOfRolls = 3;
                     }
-                    else
-                    {
-                        MessageBox.Show("Why am I here?");
-                    }
                 }
             }
 

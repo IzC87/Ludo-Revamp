@@ -11,6 +11,7 @@ namespace GameEngine.Classes
         public bool Computer { get; set; }
         public bool Active { get; set; }
         public bool HasFinished { get; set; }
+        public int FinishPosition { get; set; }
         public bool MyTurn { get; set; }
         public int DieRoll { get; set; }
         public int NumberOfRolls { get; set; }
