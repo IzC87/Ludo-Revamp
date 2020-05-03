@@ -27,6 +27,7 @@ namespace GameEngine.Initialize
                     Computer = true,
                     HasFinished = false,
                     HasMoved = false,
+                    FinishPosition = 0,
                     MyTurn = false
                 });
 

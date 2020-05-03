@@ -18,6 +18,7 @@ namespace Ludo_Revamp
         public List<FinishPositionsGUI> FinishPositionsGUI = new List<FinishPositionsGUI>();
 
         public List<Ellipse> Ellipses = new List<Ellipse>();
+        public List<TextBlock> TextBlocks = new List<TextBlock>();
 
         public MainWindow()
         {
@@ -55,7 +56,12 @@ namespace Ludo_Revamp
                 }
             }
 
-            if (player.HasMoved)
+            if (player.HasFinished)
+            {
+                TextBlocks[player.PlayerNumber].Text = "Finish position: " + player.FinishPosition;
+            }
+
+            if (player.HasMoved && Engine.Game.HasGameFinished() == false)
             {
                 Engine.EndTurn();
                 PlayGame();

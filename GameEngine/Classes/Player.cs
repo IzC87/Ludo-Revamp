@@ -78,7 +78,7 @@ namespace GameEngine.Classes
                 {
                     return true;
                 }
-                else if (token.Position != null && token != mainToken && mainToken.Position + DieRoll == token.Position)
+                else if (token.Position != null && token != mainToken && mainToken.Position + DieRoll == token.Position && mainToken.MovedSteps + DieRoll != mainToken.MaximumSteps)
                 {
                     return true;
                 }

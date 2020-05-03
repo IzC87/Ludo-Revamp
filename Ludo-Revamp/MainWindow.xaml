@@ -271,10 +271,9 @@
             BorderBrush="Black"
             BorderThickness="2"/>
 
-
-
-
-
+            
+            
+            
             <!-- Player two start field -->
             <Border
             Background="Purple"

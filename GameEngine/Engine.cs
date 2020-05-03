@@ -178,7 +178,18 @@ namespace GameEngine
         {
             var player = Game.WhoseTurnIsIt();
 
-            player.HasPlayerFinished();
+
+            if (player.HasFinished == false && player.HasPlayerFinished())
+            {
+                player.FinishPosition = Game.GetFinishPosition();
+
+                // Congratulate Player
+                if (player.Computer == false)
+                {
+                    MessageBox.Show($"Congratulations! You finished {player.FinishPosition}");
+                }
+            }
+
 
             if (CanPlayerGoAgain(player))
             {

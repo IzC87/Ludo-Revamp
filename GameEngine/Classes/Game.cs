@@ -14,6 +14,18 @@ namespace GameEngine.Classes
         public DateTime GameCreationTime { get; set; }
 
 
+        public bool HasGameFinished()
+        {
+            foreach (var player in Players)
+            {
+                if (!player.HasFinished)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public void DeselectTokens()
         {
             foreach (var player in Players)
@@ -106,6 +118,19 @@ namespace GameEngine.Classes
                 }
             }
             return null;
+        }
+
+        internal int GetFinishPosition()
+        {
+            int position = 0;
+            foreach (var player in Players)
+            {
+                if (player.FinishPosition >= position)
+                {
+                    position = player.FinishPosition + 1;
+                }
+            }
+            return position;
         }
     }
 }
