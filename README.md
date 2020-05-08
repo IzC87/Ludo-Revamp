@@ -30,7 +30,7 @@ I've re-started this project three times because of a couple of different reason
 - I immediatly decided to make a GUI for the game because I hate the console and
 because I think it's easier to see what's going on in a real GUI. This let me
 down a path where my WPF class and my GameEngine class Library had to communicate
-because I need to move tokens in Engine aswell ass graphically on the board.
+because I need to move tokens in Engine aswell as graphically on the board.
 
 - Being able to play versus the computer was important to me aswell. Aswell as
 automating the movements for the computer. This ended up being pretty complex
@@ -52,4 +52,10 @@ you live(ready study) and you learn.
 
 After all this was done I started to refactor my Classes (Player and Token).
 I made a Game class that consists of all the players so that I could easier save
-and load a game state.
+and load a game state. The main thought here was to have everything I needed
+in my classes so I could create my DBContext and add my initial migration.
+
+Now I need to instantiate a new game, create 2-4 players depending on how many
+are chosen to play. Add tokens for every player, place the tokens on their
+starting positions on the game board.
+
