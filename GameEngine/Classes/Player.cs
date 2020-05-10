@@ -15,8 +15,6 @@ namespace GameEngine.Classes
         public bool MyTurn { get; set; }
         public int DieRoll { get; set; }
         public int NumberOfRolls { get; set; }
-
-        [NotMapped]
         public bool HasMoved { get; set; }
 
         public bool HasPlayerFinished()

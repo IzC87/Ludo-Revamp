@@ -1,6 +1,4 @@
 ﻿using GameEngine.Classes;
-using System.Collections.Generic;
-using System.Windows;
 
 namespace GameEngine.Initialize
 {

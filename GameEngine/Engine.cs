@@ -257,6 +257,7 @@ namespace GameEngine
         public List<Token> LoadGame(Game game)
         {
             List<Token> tokens = new List<Token>();
+            Context = new MyContext();
             Game = Load.LoadGame(game);
 
             foreach (var player in Game.Players)
@@ -278,7 +279,7 @@ namespace GameEngine
 
             // Clear the Listview and write that a new game has started to the user.
             HistoryList.Clear();
-            //AddMessageToHistoryList("New Game Started!");
+            AddMessageToHistoryList("New Game Started!");
 
             Game.SetPlayerTurn(0);
         }
