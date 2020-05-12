@@ -1,4 +1,5 @@
-(Project ruleset)[https://pgbsnh19.github.io/dataatkomst/project4.html]
+[Project ruleset](https://pgbsnh19.github.io/dataatkomst/project4.html)
+
 
 # User Stories
 
