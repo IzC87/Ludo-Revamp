@@ -35,7 +35,7 @@ namespace GameEngine.Classes
             return false;
         }
 
-        internal List<Token> GetMovableTokens()
+        public List<Token> GetMovableTokens()
         {
             List<Token> moveableTokens = new List<Token>();
             foreach (var token in Tokens)
@@ -48,7 +48,7 @@ namespace GameEngine.Classes
             return moveableTokens;
         }
 
-        internal bool CanTokenMove(Token mainToken)
+        public bool CanTokenMove(Token mainToken)
         {
             // Token is locked in start
             if (mainToken.Position == null && DieRoll != 6)

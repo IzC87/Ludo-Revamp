@@ -24,7 +24,7 @@ namespace GameEngine.Classes
                     ++finishedPlayers;
                 }
             }
-            if (finishedPlayers >= GetNumberOfPlayers() - 1)
+            if (finishedPlayers >= GetNumberOfPlayers())
             {
                 return true;
             }
@@ -125,7 +125,7 @@ namespace GameEngine.Classes
             return null;
         }
 
-        internal int GetFinishPosition()
+        public int GetFinishPosition()
         {
             int position = 0;
             foreach (var player in Players)

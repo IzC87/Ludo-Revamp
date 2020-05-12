@@ -4,7 +4,7 @@ namespace GameEngine.Initialize
 {
     public class NewGame
     {
-        internal static void SetupPlayers(int numberOfPlayers, int numberOfComputers, ref Game game)
+        public static void SetupPlayers(int numberOfPlayers, int numberOfComputers, ref Game game)
         {
             for (int i = 0; i < 4; i++)
             {

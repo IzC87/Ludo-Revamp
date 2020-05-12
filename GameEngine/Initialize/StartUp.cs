@@ -7,7 +7,7 @@ namespace GameEngine.Initialize
 {
     public class StartUp
     {
-        internal static Game CreatePlayers()
+        public static Game CreatePlayers()
         {
             var game = new Game
             {
