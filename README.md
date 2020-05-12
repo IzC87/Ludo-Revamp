@@ -99,3 +99,7 @@ in the future. Most likely by just saving when the player either presses a
 save button, loads and game, creates a new game or shuts the game down.
 Now I save the game too much(if this is possible) and as mentioned above
 my DBContext is a global variable.
+
+## Unit Tests
+
+Actually noticed a bug right away that I could take care of thanks to my tests.
