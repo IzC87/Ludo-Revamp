@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludo-Revamp", "Ludo-Revamp\Ludo-Revamp.csproj", "{11FBA1AB-FECD-4473-AF8A-D8CD39708C9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{7953A121-2F6B-4D47-A162-9C378A947224}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameEngine", "GameEngine\GameEngine.csproj", "{7953A121-2F6B-4D47-A162-9C378A947224}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTest", "XUnitTest\XUnitTest.csproj", "{D30DA9EC-55E4-43DB-A626-198CDD0FE2D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7953A121-2F6B-4D47-A162-9C378A947224}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7953A121-2F6B-4D47-A162-9C378A947224}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7953A121-2F6B-4D47-A162-9C378A947224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D30DA9EC-55E4-43DB-A626-198CDD0FE2D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D30DA9EC-55E4-43DB-A626-198CDD0FE2D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D30DA9EC-55E4-43DB-A626-198CDD0FE2D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D30DA9EC-55E4-43DB-A626-198CDD0FE2D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

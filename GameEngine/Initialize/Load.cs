@@ -10,24 +10,23 @@ namespace GameEngine.Initialize
     {
         internal static Game LoadGame(Game gameHandle)
         {
-            Game game;
             using (var context = new MyContext())
             {
-                game = context.Games
-                    .Where(g => (g.Name == gameHandle.Name && g.GameCreationTime == gameHandle.GameCreationTime))
+                var game = context.Games
+                    .Where(g => g == gameHandle)
                     .Include("Players.Tokens")
                     .FirstOrDefault();
+                return game;
             }
-            return game;
         }
 
         internal static ObservableCollection<Game> LoadSavedGames()
         {
             List<Game> games;
-            using (var context = new MyContext())
-            {
-                games = context.Games.ToList();
-            }
+            var context = new MyContext();
+            games = context.Games
+                .OrderBy(g => g.Name)
+                .ToList();
             ObservableCollection<Game> returnValue = new ObservableCollection<Game>(games);
             return returnValue;
         }

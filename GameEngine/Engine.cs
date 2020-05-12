@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 
 namespace GameEngine
@@ -15,8 +16,6 @@ namespace GameEngine
         public ObservableCollection<string> HistoryList = new ObservableCollection<string>();
         public List<ObservableCollection<string>> PlayersScore = new List<ObservableCollection<string>>();
         public ObservableCollection<Game> SavedGames = new ObservableCollection<Game>();
-
-        public int AmountOfPlayers = 0;
 
         public Game Game;
         public DbContext Context = new MyContext();
@@ -181,6 +180,7 @@ namespace GameEngine
             if (player.HasFinished == false && player.HasPlayerFinished())
             {
                 player.FinishPosition = Game.GetFinishPosition();
+                player.HasFinished = true;
 
                 // Congratulate Player
                 MessageBox.Show($"Congratulations player {player.PlayerNumber + 1}! You finished {player.FinishPosition}");
@@ -247,9 +247,7 @@ namespace GameEngine
 
         public void LaunchConfiguration()
         {
-            Game = StartUp.CreatePlayers();
             PlayersScore = StartUp.CreatePlayersScoreList();
-            Context.Add(Game);
 
             SavedGames = Load.LoadSavedGames();
         }
@@ -257,8 +255,10 @@ namespace GameEngine
         public List<Token> LoadGame(Game game)
         {
             List<Token> tokens = new List<Token>();
-            Context = new MyContext();
             Game = Load.LoadGame(game);
+
+            Context = new MyContext();
+            Context.Attach(Game);
 
             foreach (var player in Game.Players)
             {
@@ -271,9 +271,9 @@ namespace GameEngine
             return tokens;
         }
 
-        public void InitializeNewGame(int numberOfPlayers, int numberOfComputers)
+        public void InitializeNewGame(int numberOfPlayers, int numberOfComputers, string gameName)
         {
-            AmountOfPlayers = numberOfPlayers + numberOfComputers;
+            Game = StartUp.CreatePlayers();
 
             NewGame.SetupPlayers(numberOfPlayers, numberOfComputers, ref Game);
 
@@ -281,7 +281,13 @@ namespace GameEngine
             HistoryList.Clear();
             AddMessageToHistoryList("New Game Started!");
 
+            Game.Name = gameName;
             Game.SetPlayerTurn(0);
+
+            Context.Add(Game);
+            Context.SaveChanges();
+
+            SavedGames = Load.LoadSavedGames();
         }
     }
 }
