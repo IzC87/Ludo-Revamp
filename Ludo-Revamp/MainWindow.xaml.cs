@@ -8,6 +8,7 @@ using GameEngine.Classes;
 using Ludo_Revamp.Classes;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 
 namespace Ludo_Revamp
 {
@@ -89,7 +90,7 @@ namespace Ludo_Revamp
         {
             // Get the selected game
             var game = (Game)SavedGamesList.SelectedItem;
-            if (game != null && game.Name != null)
+            if (game != null)
             {
                 // Update the game name textbox
                 GameNameBox.Text = game.Name;
@@ -138,20 +139,22 @@ namespace Ludo_Revamp
                 if (game != null)
                 {
                     context.Games.Remove(game);
+                    context.SaveChanges();
                 }
             }
+
+            // Initialize the engine for a new game
+            Engine.InitializeNewGame(NumberOfPlayersList.SelectedIndex, NumberOfComputersList.SelectedIndex, GameNameBox.Text);
+
+            // Add the ellipses to the class
+            LoadPlayerTokensGUI();
 
             // Initialize new game by setting up the GUI
             InitializeNewGameGUI(NumberOfPlayersList.SelectedIndex + NumberOfComputersList.SelectedIndex);
 
-            // Initialize the engine for a new game
-            Engine.InitializeNewGame(NumberOfPlayersList.SelectedIndex, NumberOfComputersList.SelectedIndex);
-
-            // Give the new game some properties
-            Engine.Game.Name = GameNameBox.Text;
-
-            // Save the newly started game
-            SaveGame();
+            // Update the games list
+            SavedGamesList.ItemsSource = new ObservableCollection<string>();
+            SavedGamesList.ItemsSource = Engine.SavedGames;
 
             // Start the new game
             Diebutton.IsEnabled = true;
@@ -188,11 +191,6 @@ namespace Ludo_Revamp
                 Grid.SetColumn(token.Ellipse, BoardPositionsGUI[int.Parse(token.Position.ToString())].Column);
                 Grid.SetRow(token.Ellipse, BoardPositionsGUI[int.Parse(token.Position.ToString())].Row);
             }
-        }
-
-        private void SaveGame()
-        {
-            Engine.Context.SaveChanges();
         }
 
         private void HandleEscapeKeyPress(object sender, KeyEventArgs e)

@@ -30,7 +30,6 @@ namespace GameEngine.Classes
             }
             if (numberOfFinishedTokens == 4)
             {
-                HasFinished = true;
                 return true;
             }
             return false;
