@@ -1,4 +1,4 @@
-[Project ruleset](https://pgbsnh19.github.io/dataatkomst/project4.html)
+[Project ruleset - a link for myself](https://pgbsnh19.github.io/dataatkomst/project4.html)
 
 
 # User Stories
@@ -44,7 +44,7 @@ complicated and the bugs started to creep up on me.
 
 
 ## Coding process
-I first made the GUI to be able to move my pieces on the board Graphically. Made
+- I first made the GUI to be able to move my pieces on the board Graphically. Made
 the JSON files with all the X, Y coordinates for the GUI. Created the logic for
 what happens when I press the GUI buttons. Then I made the methods to actually
 move the pieces on the GUI. I started with all this because I wanted to see my
@@ -53,34 +53,34 @@ about the same during my re-writes. Also starting this new course and learning
 more about git has taught me that I shouldn't have restarted the project but
 you live(study) and you learn.
 
-After all this was done I started to refactor my Classes (Player and Token).
+- After all this was done I started to refactor my Classes (Player and Token).
 I made a Game class that consists of all the players so that I could easier save
 and load a game state. The main thought here was to have everything I needed
 in my classes so I could create my DBContext and add my initial migration.
 
-Now I need to instantiate a new game, create 2-4 players depending on how many
+- Now I need to instantiate a new game, create 2-4 players depending on how many
 are chosen to play. Add tokens for every player, place the tokens on their
 starting positions on the game board.
 
-**The game begins!**
+### The game begins!
 
-Getting the pieces to move and keeping track of how long they've moved to be
+- Getting the pieces to move and keeping track of how long they've moved to be
 able to also get them across the finish line instead of just going around in
 circles on the board made this a bit trickier. There's one thing of just keeping
 track of MovedSteps and another thing of doing this and placing the token on a
 graphical board. But after some trial and error and && operators even this turned
 out great.
 
-This is where I eventually stopped checking if the player could move and then
+- This is where I eventually stopped checking if the player could move and then
 checking what tokens that could move and just returned a List<Token> of the
 tokens that can move. This made things easier for me and I didn't have to nest
 quiet so many if statements.
   
-Now we're getting somewhere. After getting tokens to move, that actually should
+- Now we're getting somewhere. After getting tokens to move, that actually should
 be able to move, we need to pass the turn to the next player unless the player
 rolled a six but havn't rolled a six too many times.
 
-Getting to the stage where we need to implement the finish line and goal.
+- Getting to the stage where we need to implement the finish line and goal.
 This stage proved to be bug ridden, atleast when I did it. The most annoying
 bug for me was that I could bump players back that were on the finish line
 which shouldn't be possible. But ofcourse this was because I was just checking
@@ -91,6 +91,7 @@ with an extra && operator to check if the token was on a finish line or not
 ## DBContext
 
 **Problems saving and loading**
+
 I realise that my solution to my global DBContext isn't a good solution but
 after re-starting my project two times I just didnt want to do that again.
 Reading on how to solve this issue I've learned alot about entity frameworks
